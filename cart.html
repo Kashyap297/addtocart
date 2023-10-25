@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fastkart.</title>
+
+    <!-- font -->
+    <link rel="stylesheet" href="asset/fonts/stylesheet.css">
+
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="asset/css/all.min.css">
+
+    <!-- css -->
+    <link rel="stylesheet" href="asset/css/style.css">
+
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="asset/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+
+<body onload="cartInfo()">
+    <header class="bg-light py-2" id="header">
+
+    </header>
+    <main>
+        <div class="bg-light my-5 py-4">
+            <div class="container d-flex align-items-center justify-content-between">
+                <h3 class="fw-bold lgt-gray-clr">Cart</h3>
+                <span class="fs-6 lgt-gray-clr"><a href="index.html"><i
+                            class="fa-solid fa-house me-1 lgt-gray-clr"></i></a> Cart
+                </span>
+            </div>
+        </div>
+
+        <div class="container mb-5">
+            <div class="col-11 m-auto">
+                <div class="product-cart rounded p-3 bg-light">
+                    <table class="table">
+                        <thead>
+                            <tr class="text-center fw-bold ">
+                                <td class="bg-light font-clr">Product</td>
+                                <td class="bg-light font-clr">Name</td>
+                                <td class="bg-light font-clr">Price</td>
+                                <td class="bg-light font-clr">Qty</td>
+                                <td class="bg-light font-clr">Amount</td>
+                                <td class="bg-light font-clr">Action</td>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody" class="bg-light">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+</body>
+<script src="asset/js/header.js"></script>
+
+
+<script>
+
+    function cartInfo() {
+
+        const cart = JSON.parse(localStorage.getItem('cart'));
+
+        let cartData = ""
+        for (var i = 0; i < cart.length; i++) {
+            cartData +=
+                `<tr class="fw-bold">
+                                <td class="bg-light">
+                                    <div class="cart-img m-auto">
+                                        <img src="${cart[i].image}">
+                                    </div>
+                                </td>
+                                <td class="bg-light lgt-gray-clr ps-5">${cart[i].name}<br>
+                                    <span class="font-clr fw-normal">Sold By : Fresho </span>
+                                    </td>
+                                <td class="bg-light lgt-gray-clr text-center">${cart[i].price}/-</td>
+                                <td class="bg-light lgt-gray-clr text-center" id="qty"><button class="minus" onclick="decrease(${i})"><i class="fa-solid fa-minus text-danger"></i></button> <input name='product' type="number" class="proqty fw-bold lgt-gray-clr" min='1' max='100' value='${cart[i].qty}' readonly><button class="plus" onclick="increase(${i})"><i class="fa-solid fa-plus text-success"></i></button></td>
+                                <td class="bg-light text-success fw-bold text-center">${cart[i].qty * cart[i].price}/-</td>
+                                <td class="bg-light text-center"><button class="bg-danger cart-remove" onclick=deleteData(${i})>Remove<i class="fa-regular fa-trash-can ms-2"></i></button></td>
+                            </tr>`
+        }
+        document.getElementById('tbody').innerHTML = cartData
+    }
+
+</script>
+
+</html>

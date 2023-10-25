@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product</title>
+
+    <!-- font -->
+    <link rel="stylesheet" href="asset/fonts/stylesheet.css">
+
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="asset/css/all.min.css">
+
+    <!-- css -->
+    <link rel="stylesheet" href="asset/css/style.css">
+
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="asset/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+
+<body>
+    <header class="bg-light py-2" id="header">
+
+    </header>
+
+    <main>
+        <div class="products-banner p-5">
+            <div class="container">
+                <div class="d-flex mb-4 align-items-center justify-content-between">
+                    <h3 class="fw-bold lgt-gray-clr">Top Save Today</h3>
+                    <span class="font-clr fs-5"><i class="fa-solid fa-tags"></i> Discount Deal</span>
+                </div>
+                <div class="row" id="productData">
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+</body>
+<script src="asset/js/header.js"></script>
+<script>
+
+    // create array object to get product Details
+    const products = [
+        {
+            image: "product1.png",
+            name: "Penut Butter Bite Premium Butter 200g",
+            price: 175
+        },
+        {
+            image: "product2.png",
+            name: "Yumitos Chilli Sprinkled Potato Chips 100g",
+            price: 80
+        },
+        {
+            image: "product3.png",
+            name: "Fresh Bread and Pastry flour bun 200g",
+            price: 135
+        },
+        {
+            image: "product4.png",
+            name: "Chocolate-Chips-Cookies PKT 250g",
+            price: 225
+        },
+        {
+            image: "product5.png",
+            name: "Muffets & Tuffels Whole Wheat Bread 400g",
+            price: 99
+        },
+        {
+            image: "product6.png",
+            name: "SnackAmor Combo Pack of Jowar Stick and Chips 150g",
+            price: 165
+        },
+        {
+            image: "product7.png",
+            name: "Fantacy Crunchy Choco Chips Cookies",
+            price: 200
+        },
+        {
+            image: "product8.png",
+            name: "Milky Silicone Heart Chocolate Mould",
+            price: 220
+        },
+    ]
+
+    // Show Products Card as dynamic
+    var product = ""
+
+    for (let i = 0; i < products.length; i++) {
+        product += `<div class="col-3 mb-5">
+                        <div class="product rounded shadow-sm">
+                            <div class="pro-img bg-light pt-4 pb-3 rounded">
+                                <img src="asset/image/${products[i].image}" alt="" id="product-img">
+                            </div>
+                            <div class="abt-pro bg-light p-3 pt-0 rounded">
+                                <p class="fw-bolder lgt-gray-clr mb-1 pro-title">${products[i].name}</p>
+                                <span class="font-clr fw-bolder fs-5 price">${products[i].price}</span>
+                                <div class="rating d-flex gap-1 mt-1 align-items-center"><i class="fa-solid fa-star"
+                                        style="color: #d99f46;"></i><i class="fa-solid fa-star"
+                                        style="color: #d99f46;"></i><i class="fa-solid fa-star"
+                                        style="color: #d99f46;"></i><i class="fa-solid fa-star"
+                                        style="color: #d99f46;"></i><i class="fa-regular fa-star"
+                                        style="color: #d99f46;"></i><span style="color: #d99f46;" class="ms-3">In
+                                        Stock</span></div>
+                                <button class="rounded-pill w-100 fw-bold mt-3 lgt-gray-clr addCart"> Add To Cart
+                                    <i class="fa-solid fa-plus ms-2" style="color: #d99f46;"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    `
+        document.getElementById('productData').innerHTML = product
+    }
+
+    // Add To Cart Product Only one with Full Data 
+    const addcart = document.querySelectorAll('.addCart')
+
+    for (let i = 0; i < addcart.length; i++) {
+        addcart[i].addEventListener('click', function (e) {
+            e.preventDefault()
+
+            const parent = this.parentElement.parentElement
+            const image = parent.querySelector('#product-img').src
+            const proTitle = parent.querySelector('.pro-title').innerHTML
+            const price = parseInt(parent.querySelector('.price').innerHTML)
+
+            const addCartData = {
+                image: image,
+                name: proTitle,
+                price: price,
+                qty: 1
+            }
+
+            const cart = JSON.parse(localStorage.getItem('cart'));
+
+            if (cart == null) {
+                localStorage.setItem('cart', JSON.stringify([addCartData]))
+            } else {
+                const checkCart = cart.some((e) => {
+                    if (e.name === proTitle) {
+                        e.qty++
+                        return true
+                    }
+                })
+
+                if (checkCart === false) {
+                    cart.push(addCartData)
+                }
+                localStorage.setItem('cart', JSON.stringify(cart))
+            }
+
+            // if (cart == null) {
+            //     localStorage.setItem('cart', JSON.stringify([addCartData]))
+            // } else {
+            //     const checkCart = cart.findIndex((e) => {
+            //         if (e.name === proTitle) {
+            //             e.qty++
+            //             return true
+            //         }
+            //     })
+            //     if (checkCart === -1) {
+            //         cart.push(addCartData)
+            //     }
+            //     localStorage.setItem('cart', JSON.stringify(cart))
+            // }
+            count()
+        })
+    }
+
+</script>
+
+</html>
